@@ -4,21 +4,32 @@ void async function main() {
   let res = await getNFTs('0x8d3e809Fbd258083a5Ba004a527159Da535c8abA')
   console.log(res);
 
+  let html = await generateHTML(res)
 
+  console.log(html);
+
+  await addToDOM(html)
 
 }()
 
 async function getNFTs(owner) {
   let res = await fetch(`https://14ec30c9.ngrok.io/nfts/${owner}`)
   let json = await res.json()
-  return json
+  let assets = json["assets"]
+  return assets
 }
 
-async function addToDOM() {
+async function generateHTML(assets) {
+  let html = assets.map((asset) => `<div class='asset' style='background-color: #${asset.background_color}'><img src='${asset.image_thumbnail_url}' alt='${asset.asset_contract.name} #${asset.token_id}'/></div>` )
+
+  return html.join()
+}
+
+async function addToDOM(html) {
   let photobar = document.getElementsByClassName("css-1dbjc4n r-14lw9ot r-1tlfku8 r-t23y2h r-1phboty r-rs99b7 r-ku1wi2 r-1udh08x").item(0)
 
   let nftbar = document.createElement('div')
-  nftbar.innerHTML = '<p class="el">here\'s a div.</p>';
+  nftbar.innerHTML = html
 
   photobar.parentNode.insertBefore(nftbar, photobar);
 }
