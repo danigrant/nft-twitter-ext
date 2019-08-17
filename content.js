@@ -2,11 +2,8 @@ void async function main() {
   await new Promise(cb => setTimeout(cb, 2000))
 
   let res = await getNFTs('0x8d3e809Fbd258083a5Ba004a527159Da535c8abA')
-  console.log(res);
 
   let html = await generateHTML(res)
-
-  console.log(html);
 
   await addToDOM(html)
 
