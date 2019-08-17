@@ -1,12 +1,21 @@
-.asset {
-  width: fit-content;
-  padding: 20px;
-  display: -webkit-inline-box;
+.asset-outer {
+  width: 90px;
+  height: 90px;
+  padding: 10px;
+  display: inline-block;
   margin: 2px;
-  border-radius: 10px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
-.asset img {
-  margin: 0 auto;
-  width: 100px;
+.asset-inner {
+  display: inline-block;
+  position: relative;
+  right: -50%;
+}
+
+.asset-inner img {
+  width: 90%;
+  position: relative;
+  left: -50%;
 }

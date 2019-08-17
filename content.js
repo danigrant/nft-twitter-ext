@@ -17,7 +17,7 @@ async function getNFTs(owner) {
 }
 
 async function generateHTML(assets) {
-  let html = assets.map((asset) => `<div class='asset' style='background-color: #${asset.background_color}'><img src='${asset.image_thumbnail_url}' alt='${asset.asset_contract.name} #${asset.token_id}'/></div>` )
+  let html = assets.map((asset) => `<div class='asset-outer' style='background-color: #${asset.background_color}'><div class='asset-inner'><img src='${asset.image_thumbnail_url}'/></div></div>` ) // alt='${asset.asset_contract.name} #${asset.token_id}'
 
   return html.join('')
 }
