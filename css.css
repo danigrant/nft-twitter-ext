@@ -21,7 +21,3 @@
   position: relative;
   left: -50%;
 }
-
-.asset-outer[img[src=""]] {
-    display: none;
-}
