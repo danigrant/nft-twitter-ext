@@ -1,10 +1,25 @@
 const url = 'https://nft-twitter-ext-server.herokuapp.com'
 
-// TODO window.onhashchange = () => {} https://stackoverflow.com/questions/6390341/how-to-detect-url-change-in-javascript
-// TODO padding bottom on the whole shebang https://twitter.com/VitalikButerin
-
 void async function main() {
+  let currentTwitterHandle = await getTwitterHandle()
+
+  displayNFTs()
+
+  setInterval(checkForPageChange, 100);
+}()
+
+async function checkForPageChange() {
+  if (await getTwitterHandle() != currentTwitterHandle) {
+    console.log('page changed');
+    removeFromDOM()
+    displayNFTs()
+  }
+}
+
+async function displayNFTs() {
   let handle = await getTwitterHandle()
+
+  currentTwitterHandle = handle
 
   let wallet = await accountInHumanityDAO(handle)
 
@@ -19,9 +34,9 @@ void async function main() {
 
     await addToDOM(html)
   } else {
-    removeFromDOM()
+    try { removeFromDOM() } catch (e) { }
   }
-}()
+}
 
 async function getTwitterHandle() {
   let path = window.location.pathname
