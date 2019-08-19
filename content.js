@@ -1,16 +1,38 @@
+const url = 'https://f6b38d97.ngrok.io'
+
 void async function main() {
-  await new Promise(cb => setTimeout(cb, 1000))
+  let handle = await getTwitterHandle()
 
-  let res = await getNFTs('0x8d3e809Fbd258083a5Ba004a527159Da535c8abA')
+  let wallet = accountInHumanityDAO(handle)
 
-  let html = await generateHTML(res)
+  if (wallet) {
+    await new Promise(cb => setTimeout(cb, 800))
 
-  await addToDOM(html)
+    let res = await getNFTs('0x8d3e809Fbd258083a5Ba004a527159Da535c8abA')
 
+    let html = await generateHTML(res)
+
+    await addToDOM(html)
+  }
 }()
 
+async function getTwitterHandle() {
+  let path = window.location.pathname
+  let handle = path.split('/')[1].split('?')[0]
+  return handle
+}
+
+async function accountInHumanityDAO(twitterHandle) {
+  console.log('here');
+  let res = await fetch(`${url}/humanity/${twitterHandle}`)
+  let json = await res.json()
+  console.log(json);
+  // if true return wallet addr, if false return false
+  return true
+}
+
 async function getNFTs(owner) {
-  let res = await fetch(`https://f6b38d97.ngrok.io/nfts/${owner}`)
+  let res = await fetch(`${url}/nfts/${owner}`)
   let json = await res.json()
   let assets = json["assets"]
   return assets
