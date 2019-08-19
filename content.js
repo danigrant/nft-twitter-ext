@@ -10,7 +10,6 @@ void async function main() {
 
 async function checkForPageChange() {
   if (await getTwitterHandle() != currentTwitterHandle) {
-    console.log('page changed');
     removeFromDOM()
     displayNFTs()
   }
@@ -22,8 +21,6 @@ async function displayNFTs() {
   currentTwitterHandle = handle
 
   let wallet = await accountInHumanityDAO(handle)
-
-  console.log(wallet);
 
   if (wallet) {
     await new Promise(cb => setTimeout(cb, 500))
@@ -51,7 +48,6 @@ async function accountInHumanityDAO(twitterHandle) {
   try {
     return json.data.humans[0].applicant // wallet addr
   } catch (e) {
-    console.log(false);
     return false
   }
 }
