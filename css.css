@@ -4,7 +4,9 @@
   padding: 10px;
   display: inline-block;
   margin: 2px;
-  border-radius: 5px;
+  margin-bottom: 0;
+  margin-top: 0;
+  border-radius: 3px;
   overflow: hidden;
 }
 
@@ -18,4 +20,8 @@
   width: 90%;
   position: relative;
   left: -50%;
+}
+
+.asset-outer[img[src=""]] {
+    display: none;
 }
