@@ -1,18 +1,25 @@
-const url = 'https://f6b38d97.ngrok.io'
+const url = 'https://nft-twitter-ext-server.herokuapp.com'
+
+// TODO window.onhashchange = () => {} https://stackoverflow.com/questions/6390341/how-to-detect-url-change-in-javascript
+// TODO padding bottom on the whole shebang https://twitter.com/VitalikButerin
 
 void async function main() {
   let handle = await getTwitterHandle()
 
-  let wallet = accountInHumanityDAO(handle)
+  let wallet = await accountInHumanityDAO(handle)
+
+  console.log(wallet);
 
   if (wallet) {
-    await new Promise(cb => setTimeout(cb, 800))
+    await new Promise(cb => setTimeout(cb, 500))
 
-    let res = await getNFTs('0x8d3e809Fbd258083a5Ba004a527159Da535c8abA')
+    let res = await getNFTs(wallet)
 
     let html = await generateHTML(res)
 
     await addToDOM(html)
+  } else {
+    removeFromDOM()
   }
 }()
 
@@ -22,13 +29,16 @@ async function getTwitterHandle() {
   return handle
 }
 
+// if true return wallet addr, if false return false
 async function accountInHumanityDAO(twitterHandle) {
-  console.log('here');
   let res = await fetch(`${url}/humanity/${twitterHandle}`)
   let json = await res.json()
-  console.log(json);
-  // if true return wallet addr, if false return false
-  return true
+  try {
+    return json.data.humans[0].applicant // wallet addr
+  } catch (e) {
+    console.log(false);
+    return false
+  }
 }
 
 async function getNFTs(owner) {
@@ -45,7 +55,7 @@ async function generateHTML(assets) {
 
   let html = filteredAssets.map((asset) => `<div class='asset-outer' style='background-color: #${asset.background_color}'><a href="${asset.permalink}" target="_blank"><div class='asset-inner'><img src='${asset.image_thumbnail_url}'/></div></a></div>` ) // alt='${asset.asset_contract.name} #${asset.token_id}'
 
-  return html.join('')
+  return `<div class="nfts">${html.join('')}</div>`
 }
 
 async function addToDOM(html) {
@@ -55,4 +65,11 @@ async function addToDOM(html) {
   nftbar.innerHTML = html
 
   photobar.parentNode.insertBefore(nftbar, photobar);
+}
+
+async function removeFromDOM() {
+  let elements = document.getElementsByClassName('asset-outer');
+  while(elements.length > 0){
+    elements[0].parentNode.removeChild(elements[0]);
+  }
 }
