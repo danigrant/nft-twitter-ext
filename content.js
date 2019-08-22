@@ -70,12 +70,11 @@ async function generateHTML(assets) {
 }
 
 async function addToDOM(html) {
-  let photobar = document.getElementsByClassName("css-1dbjc4n r-14lw9ot r-1tlfku8 r-t23y2h r-1phboty r-rs99b7 r-ku1wi2 r-1udh08x").item(0)
-
+  let photobar = document.getElementsByClassName("SidebarCommonModules").item(0)
   let nftbar = document.createElement('div')
+  nftbar.style['margin-top'] = '10px'
   nftbar.innerHTML = html
-
-  photobar.parentNode.insertBefore(nftbar, photobar);
+  photobar.insertBefore(nftbar, photobar.firstChild);
 }
 
 async function removeFromDOM() {
