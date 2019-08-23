@@ -28,8 +28,10 @@ async function displayNFTs() {
     let res = await getNFTs(wallet)
 
     let html = await generateHTML(res)
-
     await addToDOM(html)
+
+    await addBlueCheckMark(res)
+
   } else {
     try { removeFromDOM() } catch (e) { }
   }
@@ -70,12 +72,11 @@ async function generateHTML(assets) {
 }
 
 async function addToDOM(html) {
-  let photobar = document.getElementsByClassName("css-1dbjc4n r-14lw9ot r-1tlfku8 r-t23y2h r-1phboty r-rs99b7 r-ku1wi2 r-1udh08x").item(0)
-
+  let photobar = document.getElementsByClassName("SidebarCommonModules").item(0)
   let nftbar = document.createElement('div')
+  nftbar.style['margin-top'] = '10px'
   nftbar.innerHTML = html
-
-  photobar.parentNode.insertBefore(nftbar, photobar);
+  photobar.insertBefore(nftbar, photobar.firstChild);
 }
 
 async function removeFromDOM() {
@@ -83,4 +84,21 @@ async function removeFromDOM() {
   while(elements.length > 0){
     elements[0].parentNode.removeChild(elements[0]);
   }
+}
+
+async function addBlueCheckMark(assets) {
+  let filteredAssets = assets.filter(function(asset, index, arr){
+    return asset.asset_contract.address == "0xd7d2c20a8d49cd2b0a4980070888502a1bcb4f8c";
+  });
+
+  if (filteredAssets.length > 0) {
+    let ProfileHeader = document.getElementsByClassName('ProfileHeaderCard-name').item(0)
+    let badge = document.createElement('span', {class: 'ProfileHeaderCard-badges'})
+    badge.innerHTML = '<a href="/help/verified" class="js-tooltip" target="_blank" title="Verified account" data-placement="right" rel="noopener"><span class="Icon Icon--verified"><span class="u-hiddenVisually">Verified account</span></span></a>'
+    ProfileHeader.appendChild(badge)
+  }
+
+  console.log(filteredAssets)
+
+
 }
