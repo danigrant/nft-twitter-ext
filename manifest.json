@@ -1,8 +1,8 @@
 {
 "manifest_version": 2,
-    "name": "NFT Gallery",
-    "description": "This chrome extension shows you people's NFTs when you visit their profiles on twitter. It uses HumanityDAO for the twitter => wallet mapping.",
-    "version": "0.1",
+    "name": "The Extension Of Perpetual NFT Exploration",
+    "description": "Shows you someone's NFTs when you visit their profile on twitter. It uses HumanityDAO for the twitter => wallet mapping.",
+    "version": "0.1112",
     "content_scripts": [
         {
             "matches": [
